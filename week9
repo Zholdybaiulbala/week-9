@@ -1,0 +1,67 @@
+using System;
+
+public class WeatherForecast
+{
+
+    private int temperature;
+    private string conditions;
+
+
+    public WeatherForecast(int temperature, string conditions)
+    {
+        SetTemperature(temperature);  
+        this.conditions = conditions; 
+    }
+
+
+    public void SetTemperature(int temp)
+    {
+        if (temp > 15)
+        {
+            throw new ArgumentOutOfRangeException(nameof(temp), "Temperature is too high for the winter season");
+        }
+        temperature = temp; 
+    }
+
+    public string GetForecast()
+    {
+        return $"Temperature: {temperature}°C, Weather conditions: {conditions}";
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            WeatherForecast forecast = new WeatherForecast(-5, "snow");
+            Console.WriteLine(forecast.GetForecast());
+
+            forecast.SetTemperature(20);  
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+
+        try
+        {
+            Console.WriteLine("Enter temperature:");
+            int userTemperature = int.Parse(Console.ReadLine());  
+            Console.WriteLine("Enter weather conditions:");
+            string userConditions = Console.ReadLine();  
+
+            WeatherForecast userForecast = new WeatherForecast(userTemperature, userConditions);
+            Console.WriteLine(userForecast.GetForecast()); 
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}"); 
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Error: Invalid input format.");  
+        }
+    }
+}
